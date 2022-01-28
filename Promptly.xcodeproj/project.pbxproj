@@ -11,11 +11,13 @@
 		692A215727A327AD008577EB /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692A215627A327AD008577EB /* Color+Extensions.swift */; };
 		692A215B27A34645008577EB /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692A215A27A34645008577EB /* Int+Extensions.swift */; };
 		692A215D27A36475008577EB /* TimerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692A215C27A36475008577EB /* TimerListViewModel.swift */; };
+		692A215F27A38207008577EB /* AddCountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692A215E27A38207008577EB /* AddCountdownView.swift */; };
+		692A216127A383E8008577EB /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692A216027A383E8008577EB /* View+Extensions.swift */; };
 		699C8F4D27A2F05F008813DB /* PromptlyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699C8F4C27A2F05F008813DB /* PromptlyApp.swift */; };
 		699C8F4F27A2F05F008813DB /* TimeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699C8F4E27A2F05F008813DB /* TimeListView.swift */; };
 		699C8F5127A2F061008813DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699C8F5027A2F061008813DB /* Assets.xcassets */; };
 		699C8F5427A2F061008813DB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699C8F5327A2F061008813DB /* Preview Assets.xcassets */; };
-		699C8F5C27A2F116008813DB /* DueDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699C8F5B27A2F116008813DB /* DueDate.swift */; };
+		699C8F5C27A2F116008813DB /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699C8F5B27A2F116008813DB /* Event.swift */; };
 		699C8F5F27A2F2D6008813DB /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699C8F5E27A2F2D6008813DB /* Date+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,12 +26,14 @@
 		692A215627A327AD008577EB /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		692A215A27A34645008577EB /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		692A215C27A36475008577EB /* TimerListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListViewModel.swift; sourceTree = "<group>"; };
+		692A215E27A38207008577EB /* AddCountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCountdownView.swift; sourceTree = "<group>"; };
+		692A216027A383E8008577EB /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		699C8F4927A2F05F008813DB /* Promptly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Promptly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		699C8F4C27A2F05F008813DB /* PromptlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptlyApp.swift; sourceTree = "<group>"; };
 		699C8F4E27A2F05F008813DB /* TimeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeListView.swift; sourceTree = "<group>"; };
 		699C8F5027A2F061008813DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		699C8F5327A2F061008813DB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		699C8F5B27A2F116008813DB /* DueDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDate.swift; sourceTree = "<group>"; };
+		699C8F5B27A2F116008813DB /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		699C8F5E27A2F2D6008813DB /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -47,7 +51,6 @@
 		692A215527A3070A008577EB /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				692A215327A306F7008577EB /* CountdownView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -94,7 +97,7 @@
 		699C8F5A27A2F107008813DB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				699C8F5B27A2F116008813DB /* DueDate.swift */,
+				699C8F5B27A2F116008813DB /* Event.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -102,9 +105,10 @@
 		699C8F5D27A2F2C9008813DB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				699C8F5E27A2F2D6008813DB /* Date+Extensions.swift */,
 				692A215627A327AD008577EB /* Color+Extensions.swift */,
+				699C8F5E27A2F2D6008813DB /* Date+Extensions.swift */,
 				692A215A27A34645008577EB /* Int+Extensions.swift */,
+				692A216027A383E8008577EB /* View+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -112,6 +116,8 @@
 		699C8F6027A2F7A8008813DB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				692A215E27A38207008577EB /* AddCountdownView.swift */,
+				692A215327A306F7008577EB /* CountdownView.swift */,
 				699C8F4E27A2F05F008813DB /* TimeListView.swift */,
 			);
 			path = Views;
@@ -195,13 +201,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				692A215F27A38207008577EB /* AddCountdownView.swift in Sources */,
 				692A215427A306F7008577EB /* CountdownView.swift in Sources */,
 				699C8F4F27A2F05F008813DB /* TimeListView.swift in Sources */,
 				699C8F5F27A2F2D6008813DB /* Date+Extensions.swift in Sources */,
 				699C8F4D27A2F05F008813DB /* PromptlyApp.swift in Sources */,
 				692A215B27A34645008577EB /* Int+Extensions.swift in Sources */,
-				699C8F5C27A2F116008813DB /* DueDate.swift in Sources */,
+				699C8F5C27A2F116008813DB /* Event.swift in Sources */,
 				692A215727A327AD008577EB /* Color+Extensions.swift in Sources */,
+				692A216127A383E8008577EB /* View+Extensions.swift in Sources */,
 				692A215D27A36475008577EB /* TimerListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

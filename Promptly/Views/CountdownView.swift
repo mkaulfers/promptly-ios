@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct CountdownView: View {
-    @ObservedObject var dueDate: DueDate
+    @ObservedObject var dueDate: Event
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text("Going on vacation")
+                Text(dueDate.eventTitle)
                     .font(Font.title.bold())
                     .minimumScaleFactor(0.5)
                     .lineLimit(1)
@@ -56,6 +56,6 @@ struct CountdownView: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        CountdownView(dueDate: DueDate(dueDate: Date()))
+        CountdownView(dueDate: Event(date: Date(), title: "Preview Title"))
     }
 }

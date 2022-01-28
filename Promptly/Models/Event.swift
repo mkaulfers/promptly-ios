@@ -7,24 +7,16 @@
 
 import Foundation
 
-class DueDate: ObservableObject, Hashable {
-    static func == (lhs: DueDate, rhs: DueDate) -> Bool {
-        lhs.identifier == rhs.identifier
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
-    }
-    
-    var identifier = UUID()
-    var dueDate: Date
+class Event: ObservableObject, Identifiable, Codable {
+    var eventDate: Date
+    var eventTitle: String
 
-    private var yearsRemaining: Int { (dueDate - Date()).year ?? 0 <= 0 ? 0 : (dueDate - Date()).year ?? 0 }
-    private var monthsRemaining: Int { (dueDate - Date()).month ?? 0 <= 0 ? 0 : (dueDate - Date()).month ?? 0 }
-    private var daysRemaining: Int { (dueDate - Date()).day ?? 0 <= 0 ? 0 : (dueDate - Date()).day ?? 0 }
-    private var hoursRemaining: Int { (dueDate - Date()).hour ?? 0 <= 0 ? 0 : (dueDate - Date()).hour ?? 0 }
-    private var minutesRemaining: Int { (dueDate - Date()).minute ?? 0 <= 0 ? 0 : (dueDate - Date()).minute ?? 0 }
-    private var secondsRemaining: Int { (dueDate - Date()).second ?? 0 <= 0 ? 0 : (dueDate - Date()).second ?? 0 }
+    private var yearsRemaining: Int { (eventDate - Date()).year ?? 0 <= 0 ? 0 : (eventDate - Date()).year ?? 0 }
+    private var monthsRemaining: Int { (eventDate - Date()).month ?? 0 <= 0 ? 0 : (eventDate - Date()).month ?? 0 }
+    private var daysRemaining: Int { (eventDate - Date()).day ?? 0 <= 0 ? 0 : (eventDate - Date()).day ?? 0 }
+    private var hoursRemaining: Int { (eventDate - Date()).hour ?? 0 <= 0 ? 0 : (eventDate - Date()).hour ?? 0 }
+    private var minutesRemaining: Int { (eventDate - Date()).minute ?? 0 <= 0 ? 0 : (eventDate - Date()).minute ?? 0 }
+    private var secondsRemaining: Int { (eventDate - Date()).second ?? 0 <= 0 ? 0 : (eventDate - Date()).second ?? 0 }
 
     var typeRemaining: TypeRemaining {
 
@@ -70,12 +62,13 @@ class DueDate: ObservableObject, Hashable {
         return strDigits.reversed()
     }
     
-    init(dueDate: Date) {
-        self.dueDate = dueDate
+    init(date: Date, title: String) {
+        self.eventDate = date
+        self.eventTitle = title
     }
 }
 
-enum TypeRemaining: String, Hashable {
+enum TypeRemaining: String {
     case years = "Year(s)"
     case months = "Month(s)"
     case days = "Day(s)"
