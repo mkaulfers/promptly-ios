@@ -10,51 +10,65 @@ import SwiftUI
 struct TimeListView: View {
     @ObservedObject var vm = TimerListViewModel()
     @State var showsAddModal = false
-
+    
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            ScrollView {
-                LazyVStack {
-                    ForEach (vm.events) { dueDate in
-                        CountdownView(dueDate: dueDate)
-                            .shadow(color: Color.black.opacity(0.4), radius: 3, x: 3, y: 3)
-                    }
+            
+            List {
+                ForEach (vm.events) { event in
+                    CountdownView(dueDate: event)
+                        .swipeActions(allowsFullSwipe: false) {
+                            Button (action: {
+                                vm.deleteEvent(event: event)
+                            }) { Label("Delete", systemImage: "trash.circle.fill") }
+                            .tint(.red)
+                            
+                            Button (action: {
+                                vm.deleteEvent(event: event)
+                            }) { Label("Edit", systemImage: "pencil.circle.fill") }
+                            .tint(.promptlyTeal)
+                        }
+                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .background(Color.promptlyLightNavy)
                 }
-                    .padding(.horizontal)
             }
-                .listStyle(PlainListStyle())
-                .background(Color.promptlyLightNavy)
-
+            .listStyle(PlainListStyle())
+            .background(Color.promptlyLightNavy)
+            
             Button(action: {
                 withAnimation {
                     showsAddModal.toggle()
                 }
             }, label: {
-                    Text("+")
-                        .font(.custom("system", size: 50))
-                        .frame(width: 70, height: 70)
-                        .foregroundColor(.promptlyNavy)
-                        .padding(.bottom, 7)
-                })
+                Text("+")
+                    .font(.custom("system", size: 50))
+                    .frame(width: 70, height: 70)
+                    .foregroundColor(.promptlyNavy)
+                    .padding(.bottom, 7)
+            })
                 .background(
-                Circle()
-                    .fill(Color.promptlyTeal)
-                    .shadow(color: Color.black.opacity(0.4), radius: 3, x: 3, y: 3))
-                .padding()
-
+                    Circle()
+                        .fill(Color.promptlyTeal)
+                        .shadow(color: Color.black.opacity(0.4), radius: 3, x: 3, y: 3))
+                .padding(.trailing, 26)
+                .padding(.bottom, 58)
+            
             Rectangle()
-                .fill(showsAddModal ? Color.promptlyNavy.opacity(0.8) : .clear)
+                .fill(showsAddModal ? .black.opacity(0.5) : .clear)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture {
-                withAnimation { showsAddModal.toggle() }
+                    withAnimation { showsAddModal.toggle() }
+                }
+            
+            if showsAddModal {
+                AddCountdownView(dismissed: {
+                    withAnimation { showsAddModal.toggle() }
+                }, add: { date, title in
+                    vm.addEvent(event: Event(date: date, title: title))
+                })
+                    .transition(.move(edge: .bottom))
             }
-
-            AddCountdownView(dismissed: {
-                withAnimation { showsAddModal.toggle() }
-            }, add: { date, title in
-                vm.addEvent(event: Event(date: date, title: title))
-                }).offset(y: showsAddModal ? 0 : UIScreen.main.bounds.height)
-        }
+        }.edgesIgnoringSafeArea(.bottom)
     }
 }
 

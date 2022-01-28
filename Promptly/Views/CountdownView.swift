@@ -11,7 +11,7 @@ struct CountdownView: View {
     @ObservedObject var dueDate: Event
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(dueDate.eventTitle)
                     .font(Font.title.bold())
@@ -27,12 +27,14 @@ struct CountdownView: View {
                     Text("\(dueDate.typeRemaining.rawValue)")
                         .font(Font.footnote)
                 }
-            }.foregroundColor(Color.promptlyTeal)
+            }
+            .frame(height: 30)
+            .foregroundColor(Color.promptlyTeal)
 
             HStack(alignment: .center, spacing: 2) {
                 Spacer()
 
-                let digits = dueDate.getFormattedTimeValue(timeValue: dueDate.timeRemaining)
+                let digits = dueDate.getFormattedTimeValue(timeValue: getDigits())
                 ForEach(Array(digits.enumerated()), id: \.offset) { index, digit in
                     if digit == "," {
                         Text(digit)
@@ -41,8 +43,8 @@ struct CountdownView: View {
                     } else {
                         Text("\(String(digit))")
                             .foregroundColor(Color.promptlyNavy)
-                            .font(Font.headline.bold())
-                            .frame(width: 25, height: 25)
+                            .font(Font.title)
+                            .frame(width: 35, height: 35)
                             .background(RoundedRectangle(cornerRadius: 5).fill(Color.promptlyOrange))
                     }
                 }
@@ -50,7 +52,31 @@ struct CountdownView: View {
         }
             .padding(.horizontal)
             .padding(.vertical, 8)
-            .background(RoundedRectangle(cornerRadius: 10).fill(Color.promptlyNavy))
+            .background(
+                Rectangle()
+                    .fill(Color.promptlyNavy)
+                    .cornerRadius(10, corners: [.topLeft, .bottomLeft])
+            )
+            .padding(.leading)
+    }
+
+    func getDigits() -> Int {
+        switch dueDate.typeRemaining {
+        case .years:
+            return dueDate.yearsRemaining
+        case .months:
+            return dueDate.monthsRemaining
+        case .days:
+            return dueDate.daysRemaining
+        case .hours:
+            return dueDate.hoursRemaining
+        case .minutes:
+            return dueDate.minutesRemaining
+        case .seconds:
+            return dueDate.secondsRemaining
+        case .done:
+            return 0
+        }
     }
 }
 
