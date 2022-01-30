@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class Event: ObservableObject, Identifiable, Codable {
     // MARK: - PRoperties
@@ -14,74 +15,74 @@ class Event: ObservableObject, Identifiable, Codable {
     var eventDate: Date
     var eventTitle: String
     
-    // Calculation Properties
-    private var timer: Timer
-    private var sessionDate: Date
-
     // Calculated Properties
-    @Published var yearsRemaining: Int = 0
-    @Published var monthsRemaining: Int = 0
-    @Published var daysRemaining: Int = 0
-    @Published var hoursRemaining: Int = 0
-    @Published var minutesRemaining: Int = 0
-    @Published var secondsRemaining: Int = 0
-    
-    
-    //MARK: - Computed Properties
-    var typeRemaining: TypeRemaining {
-
-        return yearsRemaining != 0 ? .years:
-            monthsRemaining != 0 ? .months:
-            daysRemaining != 0 ? .days:
-            hoursRemaining != 0 ? .hours:
-            minutesRemaining != 0 ? .minutes:
-            secondsRemaining != 0 ? .seconds : .done
-    }
-
-//    var timeRemaining: Int {
-//
-//        switch typeRemaining {
-//        case .years:
-//            return yearsRemaining
-//        case .months:
-//            return monthsRemaining
-//        case .days:
-//            return daysRemaining
-//        case .hours:
-//            return hoursRemaining
-//        case .minutes:
-//            return minutesRemaining
-//        case .seconds:
-//            return secondsRemaining
-//        case .done:
-//            return 0
-//        }
-//    }
+    @Published var yearsRemaining: Int
+    @Published var monthsRemaining: Int
+    @Published var daysRemaining: Int
+    @Published var hoursRemaining: Int
+    @Published var minutesRemaining: Int
+    @Published var secondsRemaining: Int
+    @Published var typeRemaining: TypeRemaining
     
     // MARK: - Initializers & DeInitializer
     init(date: Date, title: String) {
         self.eventID = UUID()
         self.eventDate = date
         self.eventTitle = title
-        self.sessionDate = Date()
-        self.timer = Timer()
-        beginUpdatingTimes()
+        
+        if let yearsRemaining = (eventDate - Date()).year,
+           let monthsRemaining = (eventDate - Date()).month,
+           let daysRemaining = (eventDate - Date()).day,
+           let hoursRemaining = (eventDate - Date()).hour,
+           let minutesRemaining = (eventDate - Date()).minute,
+           let secondsRemaining = (eventDate - Date()).second {
+            self.yearsRemaining = yearsRemaining
+            self.monthsRemaining = monthsRemaining
+            self.daysRemaining = daysRemaining
+            self.hoursRemaining = hoursRemaining
+            self.minutesRemaining = minutesRemaining
+            self.secondsRemaining = secondsRemaining
+        } else {
+            self.yearsRemaining = 0
+            self.monthsRemaining = 0
+            self.daysRemaining = 0
+            self.hoursRemaining = 0
+            self.minutesRemaining = 0
+            self.secondsRemaining = 0
+        }
+        
+        self.typeRemaining = Event.getTypeRemaining(eventDate: date)
     }
-
+    
     init(eventID: UUID, date: Date, title: String) {
         self.eventID = eventID
         self.eventDate = date
         self.eventTitle = title
-        self.sessionDate = Date()
-        self.timer = Timer()
-        beginUpdatingTimes()
+        
+        if let yearsRemaining = (eventDate - Date()).year,
+           let monthsRemaining = (eventDate - Date()).month,
+           let daysRemaining = (eventDate - Date()).day,
+           let hoursRemaining = (eventDate - Date()).hour,
+           let minutesRemaining = (eventDate - Date()).minute,
+           let secondsRemaining = (eventDate - Date()).second {
+            self.yearsRemaining = yearsRemaining
+            self.monthsRemaining = monthsRemaining
+            self.daysRemaining = daysRemaining
+            self.hoursRemaining = hoursRemaining
+            self.minutesRemaining = minutesRemaining
+            self.secondsRemaining = secondsRemaining
+        } else {
+            self.yearsRemaining = 0
+            self.monthsRemaining = 0
+            self.daysRemaining = 0
+            self.hoursRemaining = 0
+            self.minutesRemaining = 0
+            self.secondsRemaining = 0
+        }
+        
+        self.typeRemaining = Event.getTypeRemaining(eventDate: date)
     }
     
-    deinit {
-        timer.invalidate()
-    }
-
-    // MARK: - Decoding & Encoding
     private enum CodingKeys : String, CodingKey {
         case eventId
         case eventDate
@@ -93,23 +94,46 @@ class Event: ObservableObject, Identifiable, Codable {
         self.eventID = try container.decode(UUID.self, forKey: .eventId)
         self.eventDate = try container.decode(Date.self, forKey: .eventDate)
         self.eventTitle = try container.decode(String.self, forKey: .eventTitle)
-        self.sessionDate = Date()
-        self.timer = Timer()
-        beginUpdatingTimes()
+        
+        let calculatedDate = (eventDate - Date())
+        
+        if let yearsRemaining = calculatedDate.year,
+           let monthsRemaining = calculatedDate.month,
+           let daysRemaining = calculatedDate.day,
+           let hoursRemaining = calculatedDate.hour,
+           let minutesRemaining = calculatedDate.minute,
+           let secondsRemaining = calculatedDate.second {
+            self.yearsRemaining = yearsRemaining
+            self.monthsRemaining = monthsRemaining
+            self.daysRemaining = daysRemaining
+            self.hoursRemaining = hoursRemaining
+            self.minutesRemaining = minutesRemaining
+            self.secondsRemaining = secondsRemaining
+        } else {
+            self.yearsRemaining = 0
+            self.monthsRemaining = 0
+            self.daysRemaining = 0
+            self.hoursRemaining = 0
+            self.minutesRemaining = 0
+            self.secondsRemaining = 0
+        }
+        
+        self.typeRemaining = Event.getTypeRemaining(eventDate: self.eventDate)
     }
-
+    
+    
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(eventID, forKey: .eventId)
         try container.encode(eventDate, forKey: .eventDate)
         try container.encode(eventTitle, forKey: .eventTitle)
     }
-
+    
     // MARK: Class Functions
     func getFormattedTimeValue(timeValue: Int) -> [String] {
         let digits: [Int] = timeValue.digits().reversed()
         var strDigits = digits.map(String.init)
-
+        
         var insertCount = 0
         for (index, _) in strDigits.enumerated() {
             if index % 3 == 0 && index != 0 {
@@ -120,41 +144,33 @@ class Event: ObservableObject, Identifiable, Codable {
         return strDigits.reversed()
     }
 
-    func beginUpdatingTimes() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [self] _ in
-            sessionDate = Date()
-            yearsRemaining = (eventDate - sessionDate).year ?? 0 <= 0 ? 0 : (eventDate - sessionDate).year ?? 0
-            monthsRemaining = (eventDate - sessionDate).month ?? 0 <= 0 ? 0 : (eventDate - sessionDate).month ?? 0
-            daysRemaining = (eventDate - sessionDate).day ?? 0 <= 0 ? 0 : (eventDate - sessionDate).day ?? 0
-            hoursRemaining = (eventDate - sessionDate).hour ?? 0 <= 0 ? 0 : (eventDate - sessionDate).hour ?? 0
-            minutesRemaining = (eventDate - sessionDate).minute ?? 0 <= 0 ? 0 : (eventDate - sessionDate).minute ?? 0
-            secondsRemaining = (eventDate - sessionDate).second ?? 0 <= 0 ? 0 : (eventDate - sessionDate).second ?? 0
-            
-            print("Years: \(yearsRemaining)")
-            print("Months: \(monthsRemaining)")
-            print("Days: \(daysRemaining)")
-            print("Hours: \(hoursRemaining)")
-            print("Minutes: \(minutesRemaining)")
-            print("Seconds: \(secondsRemaining)")
-            
-            if yearsRemaining == 0 &&
-                monthsRemaining == 0 &&
-                daysRemaining == 0 &&
-                hoursRemaining == 0 &&
-                minutesRemaining == 0 &&
-                secondsRemaining == 0 {
-                timer.invalidate()
-            }
-        })
-    }
-    
-    func stopTimer() {
-        timer.invalidate()
+    private class func getTypeRemaining(eventDate: Date) -> TypeRemaining {
+        let currentDate = Date()
+        let calculatedDate = (eventDate - currentDate)
+        
+        if calculatedDate.year == 0 &&
+            calculatedDate.month == 0 &&
+            calculatedDate.day == 0 &&
+            calculatedDate.hour == 0 &&
+            calculatedDate.minute == 0 &&
+            calculatedDate.second == 0 {
+            return .done
+        } else {
+            if calculatedDate.year != 0 { return .years }
+            if calculatedDate.month != 0 { return .months }
+            if calculatedDate.day != 0 { return .days }
+            if calculatedDate.hour != 0 { return .hours }
+            if calculatedDate.minute != 0 { return .minutes }
+            if calculatedDate.second != 0 { return .seconds }
+        }
+        
+        print("Returned Default In: Event.GetTypeRemaining()")
+        return .done
     }
 }
 
 // MARK: - Enums
-enum TypeRemaining: String {
+enum TypeRemaining: String, CaseIterable {
     case years = "Year(s)"
     case months = "Month(s)"
     case days = "Day(s)"

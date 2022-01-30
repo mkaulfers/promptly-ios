@@ -35,23 +35,31 @@ struct TimeListView: View {
             .listStyle(PlainListStyle())
             .background(Color.promptlyLightNavy)
             
-            Button(action: {
-                withAnimation {
-                    showsAddModal.toggle()
-                }
-            }, label: {
-                Text("+")
-                    .font(.custom("system", size: 50))
-                    .frame(width: 70, height: 70)
-                    .foregroundColor(.promptlyNavy)
-                    .padding(.bottom, 7)
-            })
-                .background(
-                    Circle()
-                        .fill(Color.promptlyTeal)
-                        .shadow(color: Color.black.opacity(0.4), radius: 3, x: 3, y: 3))
-                .padding(.trailing, 26)
-                .padding(.bottom, 58)
+            HStack {
+                Button(action: {
+                    vm.deleteAllEvents()
+                }, label: {
+                    Text("Dev Tool: Delete All")
+                })
+                
+                Button(action: {
+                    withAnimation {
+                        showsAddModal.toggle()
+                    }
+                }, label: {
+                    Text("+")
+                        .font(.custom("system", size: 50))
+                        .frame(width: 70, height: 70)
+                        .foregroundColor(.promptlyNavy)
+                        .padding(.bottom, 7)
+                })
+                    .background(
+                        Circle()
+                            .fill(Color.promptlyTeal)
+                            .shadow(color: Color.black.opacity(0.4), radius: 3, x: 3, y: 3))
+                    .padding(.trailing, 26)
+                    .padding(.bottom, 58)
+            }
             
             Rectangle()
                 .fill(showsAddModal ? .black.opacity(0.5) : .clear)
@@ -64,6 +72,7 @@ struct TimeListView: View {
                 AddCountdownView(dismissed: {
                     withAnimation { showsAddModal.toggle() }
                 }, add: { date, title in
+                    withAnimation { showsAddModal.toggle() }
                     vm.addEvent(event: Event(date: date, title: title))
                 })
                     .transition(.move(edge: .bottom))

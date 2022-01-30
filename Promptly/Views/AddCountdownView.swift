@@ -11,37 +11,36 @@ struct AddCountdownView: View {
     var dismissed: () -> ()
     var add: ((date: Date, title: String)) -> ()
     
-    @State private var eventDate = Date.now
-    @State private var eventTitle = ""
+    @ObservedObject var vm = AddCountdownViewModel()
     
     var body: some View {
         
         VStack {
-
+            
             RoundedRectangle(cornerRadius: 2)
                 .fill(Color.promptlyOrange)
                 .frame(width: 100, height: 4)
-
-            TextField("", text: $eventTitle)
+            
+            TextField("", text: $vm.title)
                 .underlineTextField()
-                .placeholder(when: eventTitle.isEmpty, placeholder: {
+                .placeholder(when: vm.title.isEmpty, placeholder: {
                     Text("Event Title").foregroundColor(.promptlyLightTeal)
                         .padding(.horizontal, 10)
                 })
                 .font(.title)
             
-            DatePicker("asdf", selection: $eventDate, in: Date()...)
+            DatePicker("asdf", selection: $vm.dateTime, in: Date()...)
                 .datePickerStyle(GraphicalDatePickerStyle())
                 .accentColor(.promptlyOrange)
                 .colorScheme(.dark)
             
             HStack(spacing: 0) {
-
+                
                 Spacer()
                 Button(action: {
                     withAnimation { dismissed() }
                 }, label: {
-                    Image(systemName: "trash")
+                    Image(systemName: "slash.circle")
                         .font(.title)
                         .frame(width: 70)
                         .background(
@@ -51,21 +50,20 @@ struct AddCountdownView: View {
                                 .cornerRadius(5, corners: [.topLeft, .bottomLeft])
                         )
                 })
-
+                
                 Button(action: {
-                    add((date: eventDate, title: eventTitle))
+                    add((date: vm.dateTime, title: vm.title))
                 }, label: {
-                    Image(systemName: "checkmark.seal")
+                    Image(systemName: "checkmark.circle")
                         .font(.title)
                         .frame(width: 70)
                         .background(
                             Rectangle()
-                                .fill(Color.promptlyTeal)
+                                .fill(vm.canAdd() ? Color.promptlyTeal : Color.promptlyLightGray)
                                 .frame(height: 50)
                                 .cornerRadius(5, corners: [.topRight, .bottomRight])
                         )
-                })
-
+                }).disabled(!vm.canAdd())
             }
             .padding(.horizontal, 26)
             .padding(.bottom, 58)

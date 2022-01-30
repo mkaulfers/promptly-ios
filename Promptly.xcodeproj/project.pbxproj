@@ -14,6 +14,7 @@
 		692A215F27A38207008577EB /* AddCountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692A215E27A38207008577EB /* AddCountdownView.swift */; };
 		692A216127A383E8008577EB /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692A216027A383E8008577EB /* View+Extensions.swift */; };
 		6943287E27A47C2400DA6D00 /* PromptlyLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943287D27A47C2400DA6D00 /* PromptlyLabelStyle.swift */; };
+		6943288127A49B3700DA6D00 /* AddCountdownViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943288027A49B3700DA6D00 /* AddCountdownViewModel.swift */; };
 		699C8F4D27A2F05F008813DB /* PromptlyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699C8F4C27A2F05F008813DB /* PromptlyApp.swift */; };
 		699C8F4F27A2F05F008813DB /* TimeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699C8F4E27A2F05F008813DB /* TimeListView.swift */; };
 		699C8F5127A2F061008813DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699C8F5027A2F061008813DB /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 		692A216027A383E8008577EB /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		6943287D27A47C2400DA6D00 /* PromptlyLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptlyLabelStyle.swift; sourceTree = "<group>"; };
 		6943287F27A47DCF00DA6D00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6943288027A49B3700DA6D00 /* AddCountdownViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCountdownViewModel.swift; sourceTree = "<group>"; };
 		699C8F4927A2F05F008813DB /* Promptly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Promptly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		699C8F4C27A2F05F008813DB /* PromptlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptlyApp.swift; sourceTree = "<group>"; };
 		699C8F4E27A2F05F008813DB /* TimeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeListView.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				692A215C27A36475008577EB /* TimerListViewModel.swift */,
+				6943288027A49B3700DA6D00 /* AddCountdownViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6943288127A49B3700DA6D00 /* AddCountdownViewModel.swift in Sources */,
 				692A215F27A38207008577EB /* AddCountdownView.swift in Sources */,
 				692A215427A306F7008577EB /* CountdownView.swift in Sources */,
 				699C8F4F27A2F05F008813DB /* TimeListView.swift in Sources */,

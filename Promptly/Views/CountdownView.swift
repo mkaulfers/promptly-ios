@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CountdownView: View {
     @ObservedObject var dueDate: Event
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -17,9 +17,9 @@ struct CountdownView: View {
                     .font(Font.title.bold())
                     .minimumScaleFactor(0.5)
                     .lineLimit(1)
-
+                
                 Spacer()
-
+                
                 if dueDate.typeRemaining != .done {
                     Text("\(dueDate.typeRemaining.rawValue)")
                         .font(Font.footnote)
@@ -30,10 +30,10 @@ struct CountdownView: View {
             }
             .frame(height: 30)
             .foregroundColor(Color.promptlyTeal)
-
+            
             HStack(alignment: .center, spacing: 2) {
                 Spacer()
-
+                
                 let digits = dueDate.getFormattedTimeValue(timeValue: getDigits())
                 ForEach(Array(digits.enumerated()), id: \.offset) { index, digit in
                     if digit == "," {
@@ -50,16 +50,16 @@ struct CountdownView: View {
                 }
             }
         }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background(
-                Rectangle()
-                    .fill(Color.promptlyNavy)
-                    .cornerRadius(10, corners: [.topLeft, .bottomLeft])
-            )
-            .padding(.leading)
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+        .background(
+            Rectangle()
+                .fill(Color.promptlyNavy)
+                .cornerRadius(10, corners: [.topLeft, .bottomLeft])
+        )
+        .padding(.leading)
     }
-
+    
     func getDigits() -> Int {
         switch dueDate.typeRemaining {
         case .years:
