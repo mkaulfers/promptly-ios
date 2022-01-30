@@ -33,14 +33,17 @@ class TimerListViewModel: ObservableObject {
     //MARK: - Accessible Functions
     func addEvent(event: Event) {
         events.append(event)
-        beginUpdatingEvents()
+        
+        if !timer.isValid {
+            beginUpdatingEvents()
+        }
+        
         if let encoded = try? JSONEncoder().encode(events) {
             UserDefaults.standard.set(encoded, forKey: "saved_events")
         }
     }
     
     func deleteEvent(event: Event) {
-        event.stopTimer()
         events.remove(at: events.firstIndex(where: {$0.eventID == event.eventID}) ?? 0)
         if let encoded = try? JSONEncoder().encode(events) {
             UserDefaults.standard.set(encoded, forKey: "saved_events")
@@ -77,17 +80,17 @@ class TimerListViewModel: ObservableObject {
                     event.minutesRemaining = calculatedDate.minute ?? 0 <= 0 ? 0 : calculatedDate.minute ?? 0
                     event.secondsRemaining = calculatedDate.second ?? 0 <= 0 ? 0 : calculatedDate.second ?? 0
                     
-                    print("Years: \(event.yearsRemaining)")
-                    print("Months: \(event.monthsRemaining)")
-                    print("Days: \(event.daysRemaining)")
-                    print("Hours: \(event.hoursRemaining)")
-                    print("Minutes: \(event.minutesRemaining)")
-                    print("Seconds: \(event.secondsRemaining)")
+//                    print("Years: \(event.yearsRemaining)")
+//                    print("Months: \(event.monthsRemaining)")
+//                    print("Days: \(event.daysRemaining)")
+//                    print("Hours: \(event.hoursRemaining)")
+//                    print("Minutes: \(event.minutesRemaining)")
+//                    print("Seconds: \(event.secondsRemaining)")
                 }
             }
             
             // Every 5 seconds, go to the next available type, which is NOT 0
-            if secondsElapsed % 7 == 0 {
+            if secondsElapsed % 5 == 0 {
                 for event in events where event.typeRemaining != .done {
                     print("Fired")
                     goToNextTypeFrom(event: event)

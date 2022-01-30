@@ -143,6 +143,44 @@ class Event: ObservableObject, Identifiable, Codable {
         }
         return strDigits.reversed()
     }
+    
+    func getTimeRemainingValue() -> Int {
+        switch typeRemaining {
+        case .years:
+            return yearsRemaining
+        case .months:
+            return monthsRemaining
+        case .days:
+            return daysRemaining
+        case .hours:
+            return hoursRemaining
+        case .minutes:
+            return minutesRemaining
+        case .seconds:
+            return secondsRemaining
+        case .done:
+            return 0
+        }
+    }
+    
+    func getTimeRemainingValue(type: TypeRemaining) -> Int {
+        switch type {
+        case .years:
+            return yearsRemaining
+        case .months:
+            return monthsRemaining
+        case .days:
+            return daysRemaining
+        case .hours:
+            return hoursRemaining
+        case .minutes:
+            return minutesRemaining
+        case .seconds:
+            return secondsRemaining
+        case .done:
+            return 0
+        }
+    }
 
     private class func getTypeRemaining(eventDate: Date) -> TypeRemaining {
         let currentDate = Date()
