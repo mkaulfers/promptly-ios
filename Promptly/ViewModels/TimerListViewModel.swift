@@ -59,9 +59,11 @@ class TimerListViewModel: ObservableObject {
     
     private func beginUpdatingEvents() {
         var secondsElapsed = 0
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [self] timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] timer in
+            guard let strongSelf = self else { return }
+            
             secondsElapsed += 1
-            for event in events where event.typeRemaining != .done {
+            for event in strongSelf.events where event.typeRemaining != .done {
                 let calculatedDate = (event.eventDate - Date())
                 
                 if calculatedDate.year ?? 0 <= 0 &&
@@ -79,21 +81,13 @@ class TimerListViewModel: ObservableObject {
                     event.hoursRemaining = calculatedDate.hour ?? 0 <= 0 ? 0 : calculatedDate.hour ?? 0
                     event.minutesRemaining = calculatedDate.minute ?? 0 <= 0 ? 0 : calculatedDate.minute ?? 0
                     event.secondsRemaining = calculatedDate.second ?? 0 <= 0 ? 0 : calculatedDate.second ?? 0
-                    
-//                    print("Years: \(event.yearsRemaining)")
-//                    print("Months: \(event.monthsRemaining)")
-//                    print("Days: \(event.daysRemaining)")
-//                    print("Hours: \(event.hoursRemaining)")
-//                    print("Minutes: \(event.minutesRemaining)")
-//                    print("Seconds: \(event.secondsRemaining)")
                 }
             }
             
             // Every 5 seconds, go to the next available type, which is NOT 0
             if secondsElapsed % 5 == 0 {
-                for event in events where event.typeRemaining != .done {
-                    print("Fired")
-                    goToNextTypeFrom(event: event)
+                for event in strongSelf.events where event.typeRemaining != .done {
+                    strongSelf.goToNextTypeFrom(event: event)
                 }
             }
         })
@@ -110,7 +104,7 @@ class TimerListViewModel: ObservableObject {
         if event.secondsRemaining > 0 { availableTypes.append(.seconds) }
 
         if availableTypes.count != 0 {
-            guard let currentIndex = availableTypes.firstIndex(where: { $0 == event.typeRemaining }) else { return }
+            let currentIndex = availableTypes.firstIndex(where: { $0 == event.typeRemaining }) ?? 0
 
             withAnimation(.interactiveSpring()) {
                 //Go to next index or first

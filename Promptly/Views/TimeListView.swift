@@ -16,7 +16,7 @@ struct TimeListView: View {
             
             List {
                 ForEach (vm.events) { event in
-                    CountdownView(dueDate: event)
+                    MinimalCountdownView(event: event)
                         .swipeActions(allowsFullSwipe: false) {
                             Button (action: {
                                 vm.deleteEvent(event: event)

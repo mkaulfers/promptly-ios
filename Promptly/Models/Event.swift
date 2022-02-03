@@ -59,12 +59,14 @@ class Event: ObservableObject, Identifiable, Codable {
         self.eventDate = date
         self.eventTitle = title
         
-        if let yearsRemaining = (eventDate - Date()).year,
-           let monthsRemaining = (eventDate - Date()).month,
-           let daysRemaining = (eventDate - Date()).day,
-           let hoursRemaining = (eventDate - Date()).hour,
-           let minutesRemaining = (eventDate - Date()).minute,
-           let secondsRemaining = (eventDate - Date()).second {
+        let calculatedDate = (eventDate - Date())
+        
+        if let yearsRemaining = calculatedDate.year,
+           let monthsRemaining = calculatedDate.month,
+           let daysRemaining = calculatedDate.day,
+           let hoursRemaining = calculatedDate.hour,
+           let minutesRemaining = calculatedDate.minute,
+           let secondsRemaining = calculatedDate.second {
             self.yearsRemaining = yearsRemaining
             self.monthsRemaining = monthsRemaining
             self.daysRemaining = daysRemaining
